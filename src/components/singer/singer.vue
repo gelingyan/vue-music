@@ -29,7 +29,7 @@
         this.$router.push({
           path: `/singer/${singer.id}`
         })
-      //  this.setSinger(singer)
+        this.setSinger(singer)
       },
       _getSingerList() {
         getSingerList().then((res) => {
