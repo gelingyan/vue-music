@@ -27,6 +27,9 @@
                 <img class="image" :src="currentSong.image">
               </div>
             </div>
+            <div class="playing-lyric-wrapper">
+              <div class="playing-lyric">{{playingLyric}}</div>
+            </div>
           </div>
           <!--歌词-->
           <scroll class="middle-r" ref="lyricList" :data="currentLyric && currentLyric.lines">
@@ -117,7 +120,8 @@
         radius: 32,
         currentLyric: null,
         currentLineNum: 0,
-        currentShow: 'cd'
+        currentShow: 'cd',
+        playingLyric: ''
       }
     },
     created() {
@@ -196,13 +200,17 @@
         if (!this.songReady) {
           return
         }
-        let index = this.currentIndex - 1
-        if (index === -1) {
-          index = this.playlist.length - 1
-        }
-        this.setCurrentIndex(index)
-        if (!this.playing) {
-          this.togglePlaying()
+        if (this.playlist.length === 1) {
+          this.loop()
+        } else {
+          let index = this.currentIndex - 1
+          if (index === -1) {
+            index = this.playlist.length - 1
+          }
+          this.setCurrentIndex(index)
+          if (!this.playing) {
+            this.togglePlaying()
+          }
         }
         this.songReady = false
       },
@@ -210,13 +218,17 @@
         if (!this.songReady) {
           return
         }
-        let index = this.currentIndex + 1
-        if (index === this.playlist.length) {
-          index = 0
-        }
-        this.setCurrentIndex(index)
-        if (!this.playing) {
-          this.togglePlaying()
+        if (this.playlist.length === 1) {
+          this.loop()
+        } else {
+          let index = this.currentIndex + 1
+          if (index === this.playlist.length) {
+            index = 0
+          }
+          this.setCurrentIndex(index)
+          if (!this.playing) {
+            this.togglePlaying()
+          }
         }
         this.songReady = false
       },
@@ -269,7 +281,10 @@
           if (this.playing) {
             this.currentLyric.play()
           }
-          console.log(this.currentLyric)
+        }).catch(() => {
+          this.currentLyric = null
+          this.playingLyric = ''
+          this.currentLineNum = 0
         })
       },
       handleLyric({lineNum, txt}) {
@@ -280,6 +295,7 @@
         } else {
           this.$refs.lyricList.scrollTo(0, 0, 1000)
         }
+        this.playingLyric = txt
       },
       middleTouchStart(e) {
         this.touch.initiated = true
@@ -401,10 +417,14 @@
         if (this.currentLyric) {
           this.currentLyric.stop()
         }
-        this.$nextTick(() => {
+//        this.$nextTick(() => {
+//          this.$refs.audio.play()
+//          this.getLyric()
+//        })
+        setTimeout(() => {
           this.$refs.audio.play()
           this.getLyric()
-        })
+        }, 1000)
       },
       playing(newPlaying) {
         const audio = this.$refs.audio
