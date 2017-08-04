@@ -46,7 +46,7 @@
   import {playlistMixin} from 'common/js/mixin'
 
   export default {
-    mixin: [playlistMixin],
+    mixins: [playlistMixin],
     created() {
       this._getHotKey()
     },
@@ -65,14 +65,14 @@
       ])
     },
     methods: {
-//      handlePlaylist(playlist) {
-//        const bottom = playlist.length > 0 ? '60px' : ''
-//        this.$refs.shortcutWrapper.style.bottom = bottom
-//        this.$refs.shortcut.refresh()
-//
-//        this.$refs.searchResult.style.bottom = bottom
-//        this.$refs.suggest.refresh()
-//      },
+      handlePlaylist(playlist) {
+        const bottom = playlist.length > 0 ? '60px' : ''
+        this.$refs.shortcutWrapper.style.bottom = bottom
+        this.$refs.shortcut.refresh()
+
+        this.$refs.searchResult.style.bottom = bottom
+        this.$refs.suggest.refresh()
+      },
       addQuery(query) {
         this.$refs.searchBox.setQuery(query)
       },
