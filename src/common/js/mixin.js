@@ -33,10 +33,9 @@ export const playerMixin = {
     },
     ...mapGetters([
       'sequenceList',
-      'playlist',
       'currentSong',
-      'mode',
-      'favoriteList'
+      'playlist',
+      'mode'
     ])
   },
   methods: {
@@ -50,7 +49,7 @@ export const playerMixin = {
         list = this.sequenceList
       }
       this.resetCurrentIndex(list)
-      this.setPlaylist(list)
+      this.setPlayList(list)
     },
     resetCurrentIndex(list) {
       let index = list.findIndex((item) => {
@@ -58,36 +57,39 @@ export const playerMixin = {
       })
       this.setCurrentIndex(index)
     },
-    toggleFavorite(song) {
-      if (this.isFavorite(song)) {
-        this.deleteFavoriteList(song)
-      } else {
-        this.saveFavoriteList(song)
-      }
-    },
-    getFavoriteIcon(song) {
-      if (this.isFavorite(song)) {
-        return 'icon-favorite'
-      }
-      return 'icon-not-favorite'
-    },
-    isFavorite(song) {
-      const index = this.favoriteList.findIndex((item) => {
-        return item.id === song.id
-      })
-      return index > -1
-    },
     ...mapMutations({
-      setPlayMode: 'SET_PLAY_MODE',
-      setPlaylist: 'SET_PLAYLIST',
+      setPlayingState: 'SET_PLAYING_STATE',
       setCurrentIndex: 'SET_CURRENT_INDEX',
-      setPlayingState: 'SET_PLAYING_STATE'
-    }),
-    ...mapActions([
-      'saveFavoriteList',
-      'deleteFavoriteList'
-    ])
+      setPlayMode: 'SET_PLAY_MODE',
+      setPlayList: 'SET_PLAYLIST'
+    })
   }
+  // ,
+  // methods: {
+  //   toggleFavorite(song) {
+  //     if (this.isFavorite(song)) {
+  //       this.deleteFavoriteList(song)
+  //     } else {
+  //       this.saveFavoriteList(song)
+  //     }
+  //   },
+  //   getFavoriteIcon(song) {
+  //     if (this.isFavorite(song)) {
+  //       return 'icon-favorite'
+  //     }
+  //     return 'icon-not-favorite'
+  //   },
+  //   isFavorite(song) {
+  //     const index = this.favoriteList.findIndex((item) => {
+  //       return item.id === song.id
+  //     })
+  //     return index > -1
+  //   },
+  //   ...mapActions([
+  //     'saveFavoriteList',
+  //     'deleteFavoriteList'
+  //   ])
+  // }
 }
 
 export const searchMixin = {
