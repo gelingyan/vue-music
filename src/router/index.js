@@ -34,6 +34,11 @@ const Disc = (resolve) => {
     resolve(module)
   })
 }
+const TopList = (resolve) => {
+  import('components/top-list/top-list').then((module) => {
+    resolve(module)
+  })
+}
 
 export default new Router({
   routes: [
@@ -63,7 +68,13 @@ export default new Router({
     },
     {
       path: '/rank',
-      component: Rank
+      component: Rank,
+      children: [
+        {
+          path: ':id',
+          component: TopList
+        }
+      ]
     },
     {
       path: '/search',

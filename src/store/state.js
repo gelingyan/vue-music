@@ -13,6 +13,7 @@ const state = {
   mode: playMode.sequence, // 播放模式
   currentIndex: -1, // 当前播放索引
   disc: {}, // 歌单
+  topList: {},
   searchHistory: loadSearch(), // 历史记录
   playHistory: loadPlay() // 播放历史记录
 }
